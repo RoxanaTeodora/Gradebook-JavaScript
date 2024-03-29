@@ -5,6 +5,7 @@ studentNameInput.addEventListener("keyup", addNewStudent);
 addstudentBtn.addEventListener("click", addNewStudent);
 
 //array gol cu studenti pt tabel care urmeaza sa fie modificat
+
 const students = [
   {
     name: "Oprea Alin",
@@ -38,16 +39,16 @@ function addStudentsToTable(students) {
   //adaugam la array-ul stundenti cu map un rand pt tabel
   document.getElementById("students-table-body").innerHTML = students
     .map(
-      (student) =>
-        `<tr>
-      <td>${student.name}
-      <td>${student.medieNote}</td>
-      <td><button>Vezi note</button></td>
-      <td><button>Sterge</button></td>
-      </tr>
-    `
+      (student) => `
+  <tr>
+  <td>${student.name}</td>
+  <td>${student.medieNote.toFixed(2)}</td>
+  <td> <button class="show-grades" id=${
+    student.id
+  }>Vezi / Adauga note</button></td>
+  <td> <button class="delete-student" >X</button></td>`
     )
-    .join("");
+    .join(" ");
 }
 
 const sortAscByNamebtn = document.getElementById("sort-name-asc");
@@ -57,12 +58,55 @@ sortAscByNamebtn.addEventListener("click", sortStudentsByAsc);
 sortDesByNamebtn.addEventListener("click", sortStudentsByDes);
 
 function sortStudentsByAsc() {
-  students.sort((student1, student2) => student1.name - student2.name);
-  // addStudentsToTable();
+  students.sort((student1, student2) =>
+    student1.name.localeCompare(student2.name)
+  );
   console.log(students);
+  addStudentsToTable(students);
 }
 
 function sortStudentsByDes() {
-  students.sort((student1, student2) => student2.name - student1.name);
-  //addStudentsToTable();
+  students.sort((student1, student2) =>
+    student2.name.localeCompare(student1.name)
+  );
+  console.log(students);
+  addStudentsToTable(students);
+}
+
+const sortAscMedieByNamebtn = document.getElementById("sort-medie-asc");
+const sortDescMedieByNamebtn = document.getElementById("sort-medie-des");
+
+sortAscMedieByNamebtn.addEventListener("click", sortMedieByAsc);
+sortDescMedieByNamebtn.addEventListener("click", sortMediesByDes);
+
+function sortMedieByAsc() {
+  students.sort(
+    (student1, student2) => student1.medieNote - student2.medieNote
+  );
+  console.log(students);
+  addStudentsToTable(students);
+}
+
+function sortMediesByDes() {
+  students.sort(
+    (student1, student2) => student2.medieNote - student1.medieNote
+  );
+  addStudentsToTable(students);
+}
+
+const tabelBody = document.getElementById("students-table-body");
+tabelBody.addEventListener("click", handleActions);
+
+function handleActions(e) {
+  if (e.target.classList.contains("delete-student")) {
+    //console.log("x");
+    //stergem intregul tr
+    //butonul este in td iar td in tr
+    e.target.parentNode.parentNode.remove();
+  } else if (e.target.classList.contains("show-grades")) {
+    //console.log("note");
+    const buttonId = e.target.id;
+    const stundent = students.find((stundent) => buttonId === stundent.id);
+    console.log(stundent);
+  }
 }
