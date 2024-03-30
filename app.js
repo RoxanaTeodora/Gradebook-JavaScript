@@ -3,6 +3,7 @@ const addstudentBtn = document.getElementById("add-student-btn");
 
 studentNameInput.addEventListener("keyup", addNewStudent);
 addstudentBtn.addEventListener("click", addNewStudent);
+let selectedStudent;
 
 //array gol cu studenti pt tabel care urmeaza sa fie modificat
 
@@ -51,6 +52,8 @@ function addStudentsToTable(students) {
     .join(" ");
 }
 
+//sortarea numelui
+
 const sortAscByNamebtn = document.getElementById("sort-name-asc");
 const sortDesByNamebtn = document.getElementById("sort-name-des");
 
@@ -73,6 +76,8 @@ function sortStudentsByDes() {
   addStudentsToTable(students);
 }
 
+//sortarea mediei
+
 const sortAscMedieByNamebtn = document.getElementById("sort-medie-asc");
 const sortDescMedieByNamebtn = document.getElementById("sort-medie-des");
 
@@ -94,10 +99,15 @@ function sortMediesByDes() {
   addStudentsToTable(students);
 }
 
-const tabelBody = document.getElementById("students-table-body");
-tabelBody.addEventListener("click", handleActions);
+//stergerea si afisarea individuala a studentilor
 
-function handleActions(e) {
+const tabelBody = document.getElementById("students-table-body");
+const gradesTableBody = document.getElementById("grades-table");
+
+tabelBody.addEventListener("click", handleStudentActions);
+gradesTableBody.addEventListener("click", handleGradesAction);
+
+function handleStudentActions(e) {
   if (e.target.classList.contains("delete-student")) {
     //console.log("x");
     //stergem intregul tr
@@ -106,7 +116,33 @@ function handleActions(e) {
   } else if (e.target.classList.contains("show-grades")) {
     //console.log("note");
     const buttonId = e.target.id;
-    const stundent = students.find((stundent) => buttonId === stundent.id);
-    console.log(stundent);
+    selectedStudent = students.find((stundent) => buttonId === stundent.id);
+    //console.log(stundent);
+
+    //pt fiecare nota adaug un rand
+    //atasam indexul array-ului de note pentru fiecare buton
+    //fiecare nota este atasata butonului prin id-ul ei
+    //cand stergem updatam tabelul mereu
+    gradesTableBody.innerHTML = selectedStudent.note
+      .map(
+        (grade, index) =>
+          `<tr>
+            <td>${grade}</td>
+            <td><button id=${index} class="delete-grade">X</button></td>
+        <tr>`
+      )
+      .join("");
+    console.log(selectedStudent);
+  }
+}
+
+function handleGradesAction(e) {
+  //stundetul cu id-ul specific cu nota cu index-ul specific
+  //console.log(e.target.id);
+  if (e.target.classList.contains("delete-grade")) {
+    const gradeIndex = Number(e.target.id);
+    //console.log("grade index= ", gradeIndex);
+    selectedStudent.note.splice(gradeIndex, 1);
+    console.log(selectedStudent);
   }
 }
