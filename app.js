@@ -1,104 +1,68 @@
+import { students } from "./data/students.js";
+import {
+  addStudentsRowsToTable,
+  addNewRowtoStudentTable,
+  sortStudentsTable,
+  updateGradeTable,
+} from "./utilis.js";
+
 const studentNameInput = document.getElementById("add-student-name");
 const addstudentBtn = document.getElementById("add-student-btn");
 const gradesTableContainer = document.getElementById("grades-table-container");
+const studentTableBody = document.getElementById("students-table-body");
 
 studentNameInput.addEventListener("keyup", addNewStudent);
 addstudentBtn.addEventListener("click", addNewStudent);
 let selectedStudent;
 
-//array gol cu studenti pt tabel care urmeaza sa fie modificat
-
-const students = [
-  {
-    name: "Oprea Alin",
-    medieNote: 9.5,
-    note: [9, 8, 10, 7, 9],
-    id: "1",
-  },
-  {
-    name: "Vasilescu Cristian",
-    medieNote: 7.5,
-    note: [7, 8, 6, 8, 7],
-    id: "2",
-  },
-  { name: "Maria Mihaila", medieNote: 9.2, note: [10, 9, 9, 8, 9], id: "3" },
-]; //obiect care urmeaza sa fie modificat si importat din ./data/student.js
+//obiect care urmeaza sa fie modificat si importat din ./data/student.js
 
 function addNewStudent(e) {
-  //cand se da clicl pe enter sau pe btn
+  //cand se da click pe enter sau pe btn
   if (e.key === "Enter" || e.target.id === "add-student-btn") {
-    // console.log("Enter sau click");
-    const name = studentNameInput.value;
+    //console.log("Enter sau click");
+    // addNewStudent(studentNameInput, students);
+    const student = { name: studentNameInput.value, medieNote: 0, note: [] };
     //adaugam un array de obiecte
-    students.push({ name: name, medieNote: 0, note: [] });
-    addStudentsToTable(students);
+    addNewRowtoStudentTable(student, studentTableBody);
   }
 }
 
-//window.addEventListener("load", addStudentsToTable);
+window.addEventListener("load", () =>
+  addStudentsRowsToTable(students, studentTableBody)
+);
 
-function addStudentsToTable(students) {
-  //adaugam la array-ul stundenti cu map un rand pt tabel
-  document.getElementById("students-table-body").innerHTML = students
-    .map(
-      (student) => `
-  <tr>
-  <td>${student.name}</td>
-  <td>${student.medieNote.toFixed(2)}</td>
-  <td> <button class="show-grades" id=${
-    student.id
-  }>Vezi / Adauga note</button></td>
-  <td> <button class="delete-student" >X</button></td>`
-    )
-    .join(" ");
-}
+//adaugarea unui student nou la tabelul de studenti
 
 //sortarea numelui
 
 const sortAscByNamebtn = document.getElementById("sort-name-asc");
 const sortDesByNamebtn = document.getElementById("sort-name-des");
 
-sortAscByNamebtn.addEventListener("click", sortStudentsByAsc);
-sortDesByNamebtn.addEventListener("click", sortStudentsByDes);
+sortAscByNamebtn.addEventListener("click", () =>
+  sortStudentsTable(students, "Asc", "name", studentTableBody)
+);
+sortDesByNamebtn.addEventListener("click", () =>
+  sortStudentsTable(students, "Desc", "name", studentTableBody)
+);
 
-function sortStudentsByAsc() {
-  students.sort((student1, student2) =>
-    student1.name.localeCompare(student2.name)
-  );
-  console.log(students);
-  addStudentsToTable(students);
-}
-
-function sortStudentsByDes() {
-  students.sort((student1, student2) =>
-    student2.name.localeCompare(student1.name)
-  );
-  console.log(students);
-  addStudentsToTable(students);
-}
+//cu functia in utit de sortate in ordine asc si desc a numelui
 
 //sortarea mediei
 
 const sortAscMedieByNamebtn = document.getElementById("sort-medie-asc");
 const sortDescMedieByNamebtn = document.getElementById("sort-medie-des");
 
-sortAscMedieByNamebtn.addEventListener("click", sortMedieByAsc);
-sortDescMedieByNamebtn.addEventListener("click", sortMediesByDes);
+// sortAscMedieByNamebtn.addEventListener("click", sortMedieByAsc);
+// sortDescMedieByNamebtn.addEventListener("click", sortMediesByDes);
 
-function sortMedieByAsc() {
-  students.sort(
-    (student1, student2) => student1.medieNote - student2.medieNote
-  );
-  console.log(students);
-  addStudentsToTable(students);
-}
+sortAscMedieByNamebtn.addEventListener("click", () =>
+  sortStudentsTable(students, "Asc", "medieNote", studentTableBody)
+);
 
-function sortMediesByDes() {
-  students.sort(
-    (student1, student2) => student2.medieNote - student1.medieNote
-  );
-  addStudentsToTable(students);
-}
+sortDescMedieByNamebtn.addEventListener("click", () =>
+  sortStudentsTable(students, "Desc", "medieNote", studentTableBody)
+);
 
 //stergerea si afisarea individuala a studentilor
 
@@ -117,7 +81,7 @@ function handleStudentActions(e) {
   } else if (e.target.classList.contains("show-grades")) {
     //console.log("note");
     const buttonId = e.target.id;
-    selectedStudent = students.find((stundent) => buttonId === stundent.id);
+    selectedStudent = students.find((student) => buttonId === student.id);
     //cand se apassa pe butonul vezi/adauga note apare tabelul cu note
     gradesTableContainer.classList.remove("hide-grades");
 
@@ -125,18 +89,14 @@ function handleStudentActions(e) {
     //atasam indexul array-ului de note pentru fiecare buton
     //fiecare nota este atasata butonului prin id-ul ei
     //cand stergem updatam tabelul mereu
-    gradesTableBody.innerHTML = selectedStudent.note
-      .map(
-        (grade, index) =>
-          `<tr>
-            <td>${grade}</td>
-            <td><button id=${index} class="delete-grade">X</button></td>
-        <tr>`
-      )
-      .join("");
+
+    updateGradeTable(selectedStudent, gradesTableBody);
+
     console.log(selectedStudent);
   }
 }
+
+//stergerea notelor
 
 function handleGradesAction(e) {
   //stundetul cu id-ul specific cu nota cu index-ul specific
@@ -146,6 +106,7 @@ function handleGradesAction(e) {
     //console.log("grade index= ", gradeIndex);
     selectedStudent.note.splice(gradeIndex, 1);
     console.log(selectedStudent);
+    e.target.parentNode.parentNode.remove();
   }
 }
 
@@ -159,15 +120,7 @@ addGradeBtn.addEventListener("click", addGrade);
 function addGrade() {
   const grade = Number(gradeInput.value);
   selectedStudent.note.push(grade);
-  gradesTableBody.innerHTML = selectedStudent.note
-    .map(
-      (grade, index) =>
-        `<tr>
-            <td>${grade}</td>
-            <td><button id=${index} class="delete-grade">X</button></td>
-        <tr>`
-    )
-    .join("");
+  updateGradeTable(selectedStudent, gradesTableBody);
 }
 
 const hideGradesBtn = document.getElementById("hide-grades");
