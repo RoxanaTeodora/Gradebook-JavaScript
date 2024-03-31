@@ -3,20 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
     <title>Gradebook</title>
   </head>
   <body>
     <h1>Catalog note</h1>
     <div id="add-student-container">
-      <input type="text" id="add-student-name" />
+      <input type="number" id="add-student-name" />
       <button id="add-student-btn">Adauaga</button>
     </div>
 
     <div id="table-container">
-      <table id="students-table " border="1">
+      <table id="students-table" border="1">
         <thead>
-          <th>Nume <button id="sort-name-asc">ASC</button><button id="sort-name-des"><buttn>Des</button></td></th>
-          <th>Medie note <button id="sort-medie-asc">ASC</button><button id="sort-medie-des"><buttn>Des</button></td></th>
+          <th>Nume <button id="sort-name-asc">ASC</button><button id="sort-name-des">Des</button></th>
+          <th>Medie note <button id="sort-medie-asc">ASC</button><button id="sort-medie-des">Des</button></th>
           <th>Note student</th>
           <th>Sterge student</th>
         </thead>
@@ -24,9 +25,10 @@
       </table>
       <br>
       <br>
-      <div id="grades-table-container">
+      <div id="grades-table-container" class="hide-grades">
+        <div><button id="hide-grades">Ascunde notele</button></div>
         <div id="add-grades">
-          <input type="text">
+          <input type="number" min="1" max="10" value="5" id="grade-input" >
           <button id="add-grade-btn">Adauga</button>
         </div>
         <table border="1">

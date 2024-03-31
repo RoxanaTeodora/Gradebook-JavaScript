@@ -1,5 +1,6 @@
 const studentNameInput = document.getElementById("add-student-name");
 const addstudentBtn = document.getElementById("add-student-btn");
+const gradesTableContainer = document.getElementById("grades-table-container");
 
 studentNameInput.addEventListener("keyup", addNewStudent);
 addstudentBtn.addEventListener("click", addNewStudent);
@@ -117,7 +118,8 @@ function handleStudentActions(e) {
     //console.log("note");
     const buttonId = e.target.id;
     selectedStudent = students.find((stundent) => buttonId === stundent.id);
-    //console.log(stundent);
+    //cand se apassa pe butonul vezi/adauga note apare tabelul cu note
+    gradesTableContainer.classList.remove("hide-grades");
 
     //pt fiecare nota adaug un rand
     //atasam indexul array-ului de note pentru fiecare buton
@@ -145,4 +147,33 @@ function handleGradesAction(e) {
     selectedStudent.note.splice(gradeIndex, 1);
     console.log(selectedStudent);
   }
+}
+
+//adaugare note din input in array-ul de note pt ficare student
+
+const gradeInput = document.getElementById("grade-input");
+const addGradeBtn = document.getElementById("add-grade-btn");
+
+addGradeBtn.addEventListener("click", addGrade);
+
+function addGrade() {
+  const grade = Number(gradeInput.value);
+  selectedStudent.note.push(grade);
+  gradesTableBody.innerHTML = selectedStudent.note
+    .map(
+      (grade, index) =>
+        `<tr>
+            <td>${grade}</td>
+            <td><button id=${index} class="delete-grade">X</button></td>
+        <tr>`
+    )
+    .join("");
+}
+
+const hideGradesBtn = document.getElementById("hide-grades");
+hideGradesBtn.addEventListener("click", hideGradesContainer);
+
+function hideGradesContainer(e) {
+  //cand se apassa pe butonul ascunde note dispare tabelul cu note
+  gradesTableContainer.classList.add("hide-grades");
 }
