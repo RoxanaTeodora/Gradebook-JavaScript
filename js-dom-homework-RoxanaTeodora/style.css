@@ -2,23 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  // background-color: #d8e4f1;
-  // border: 2px solid black;
-  //height: 300vw;
+  background-color: #f0f2f4;
+  border: 2px solid black;
+  height: 300vw;
   text-align: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.table {
-  width: 50wv;
-  padding: 50px;
-  background-color: #496989;
-  border-radius: 10px;
-}
-
-.header {
-  font-family: "Roboto";
-  margin-top: 50px;
 }
 
 #lista_elevi_wrapper {
@@ -36,10 +24,10 @@ input,
 #addStudentButton,
 #addButtonNote,
 #hideButtonNote {
-  border: 1px solid black;
+  border: 1px solid #bcbbbb;
   border-radius: 5px;
   font-weight: bold;
-  color: #fefded;
+  color: #666;
   background-color: whitesmoke;
   height: 25px;
   font-size: 15px;
@@ -55,22 +43,22 @@ input[type="number"] {
 #addStudentButton,
 #addButtonNote,
 #hideButtonNote {
-  color: #202123;
-  box-shadow: 1px 1px #373535;
+  color: #3a3c42;
+  box-shadow: 1px 2px #484545;
   cursor: pointer;
-  background-color: #fbf3d5;
+  background-color: whitesmoke;
 }
 
 #addStudentButton:hover,
 .showGrades:hover,
 #hideButtonNote:hover {
-  background-color: #c6ebc5;
+  background-color: #3e8e41;
   color: black;
 }
 
 #addStudentButton:active,
 .showGrades:active {
-  background-color: #c6ebc5;
+  background-color: #3e8e41;
   box-shadow: 1px 1px #b4b3b3;
   transform: translateY(0.5px);
 }
@@ -101,8 +89,8 @@ span {
 #sort-medie-asc,
 #sort-medie-desc {
   border: 1px solid #484545;
-  border-radius: 3px;
-  /* box-shadow: 1px 2px #484545; */
+  border-radius: 5px;
+  box-shadow: 1px 2px #484545;
   font-weight: bold;
   color: #323030;
   display: flex;
@@ -155,7 +143,7 @@ span {
 }
 
 .deleteButton:hover {
-  background-color: #fa7070;
+  background-color: #d14e48;
   color: #3a3c42;
   font-weight: bold;
 }
@@ -171,28 +159,25 @@ input {
 }
 
 #students-table {
-  border: solid #283466;
+  border: 1px solid black;
   background-color: whitesmoke;
   width: 70vw;
-  color: #283466;
-  border-radius: 11px;
+  color: #3a3c42;
 }
 
 #table-grades,
 thead {
-  border: solid #283466;
+  border: 1px solid black;
   background-color: whitesmoke;
   width: 200px;
   justify-content: center;
   color: #3a3c42;
-  border-radius: 11px;
 }
 
 th,
 td {
   border: 1px solid black;
   padding: 0;
-  border-radius: 5px;
 }
 
 td {
@@ -226,8 +211,4 @@ th:last-child {
 
 .hide-grades {
   display: none;
-}
-
-#name-student {
-  color: white;
 }
