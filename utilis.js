@@ -1,4 +1,5 @@
 //functie de mai sus are ca argumente generale un array de studenti si un id din html
+
 export function addStudentsRowsToTable(students, tabelBodyElement) {
   //adaugam la array-ul stundenti cu map un rand pt tabel
   tabelBodyElement.innerHTML = students
@@ -16,8 +17,8 @@ export function addStudentsRowsToTable(students, tabelBodyElement) {
     .join(" ");
 }
 
-export function addNewRowtoStudentTable(student, tabelBodyElement) {
-  tabelBodyElement.innerHTML += `
+export function addNewRowtoStudentTable(student, studentTableBody) {
+  studentTableBody.innerHTML += `
     <tr>
     <td>${student.name}</td>
     <td>${student.medieNote.toFixed(2)}</td>
@@ -57,8 +58,8 @@ export function sortStudentsTable(
   addStudentsRowsToTable(students, tabelBodyElement);
 }
 
-export function updateGradeTable(student, gradesTableBody) {
-  gradesTableBody.innerHTML = student.note
+export function updateGradeTable(students, gradesTableBody) {
+  gradesTableBody.innerHTML = students.note
     .map(
       (grade, index) =>
         `<tr>
@@ -67,4 +68,14 @@ export function updateGradeTable(student, gradesTableBody) {
         <tr>`
     )
     .join("");
+}
+
+export function calculateAverage(numbers) {
+  return numbers.reduce((acc, number) => acc + number, 0) / numbers.length;
+}
+
+export function updateStudentsAverages(students) {
+  students.forEach(
+    (student) => (student.medieNote = calculateAverage(student.note))
+  );
 }

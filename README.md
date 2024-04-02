@@ -13,3 +13,4 @@
 - A "hide-grade" class is added to the grade table, when the user clicks the show button the class is removed and then the user clicks the hide button the class is added
 
 - Bug for adding grades for new students, input grades doen't work
+- Bug to remove students for array, not only from html
